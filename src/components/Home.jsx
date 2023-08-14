@@ -1,20 +1,26 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
+import BlogList from './BlogList'
 
 export default function Home() {
-    const [blogs, setBlog] = useState([
-        { title: 'My new website', body: 'lorem ipsum...', author: 'mario', id: 1 },
-        { title: 'Welcome party!', body: 'lorem ipsum...', author: 'yoshi', id: 2 },
-        { title: 'Web dev top tips', body: 'lorem ipsum...', author: 'mario', id: 3 }
-      ])
+    const [blogs, setBlog] = useState(null)
+    const [isPending, setisPending] = useState(true)
+    
+    // Fetching the data from the db
+    useEffect(() => {
+        fetch('http://localhost:8000/blogs')
+            .then(res => {
+            return res.json()
+            })
+            .then(data => {
+                setBlog(data)
+                setisPending(false)
+        })
+    }, [])
 
     return (
         <div className="home">
-            {blogs.map(blog => (
-                <div className="blog-preview" key={blog.id}>
-                    <h2>{blog.title}</h2>
-                    <p>Written by {blog.author}</p>
-                </div>
-            ))}
+            { isPending && <div>Loading ... </div>}
+            {blogs && <BlogList blogs={blogs} title="All blogs!" />}
         </div>
     )
 }
