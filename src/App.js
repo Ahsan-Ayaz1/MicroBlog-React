@@ -1,5 +1,6 @@
 import BlogDetails from './components/BlogDetails';
 import Navbar from './components/Navbar';
+import NotFound from './components/NotFound';
 import Create from './pages/Create';
 import Home from './pages/Home';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
@@ -19,6 +20,9 @@ function App() {
             </Route>
             <Route exact path="/blogs/:id">
               <BlogDetails />
+            </Route>
+            <Route  path="*">
+              <NotFound/>
             </Route>
           </Switch>
         </div>

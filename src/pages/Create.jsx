@@ -1,10 +1,12 @@
 import React, { useState } from 'react'
+import {useHistory} from 'react-router-dom'
 
 export default function Create() {
   const [title, setTitle] = useState('')
   const [body, setBody] = useState('')
   const [author, setAuthor] = useState('mario')
   const [isPending, setIspending] = useState(false)
+  const navigate = useHistory()
 
   const handleSubmit = (e) => {
     e.preventDefault()
@@ -17,8 +19,8 @@ export default function Create() {
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(blog)
     }).then(() => {
-      console.log('New Blog Added')
       setIspending(false)
+      navigate.push('/')
     })
   }
   return (
